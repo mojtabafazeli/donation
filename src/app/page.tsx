@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from './page.module.css'
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,8 +17,8 @@ export default function Home() {
   }, [])
 
   const provs = allProvs?.map(prov => (
-    <li key={prov.id}>
-      <a href={prov.name}>{prov.name}</a>
+    <li key={prov?.id}>
+      <Link href={`about/${prov.name}`}>{prov.name}</a>
       </li>
   ))
   return (

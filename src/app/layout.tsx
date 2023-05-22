@@ -1,4 +1,11 @@
 import './globals.css';
+import { Inter } from 'next/font/google';
+const inter = Inter({subsets: ['latin']});
+
+export const metadata = {
+  title: 'دیار',
+  description: 'لیست استان ها'
+}
 
 export default function RootLayout({
   children,
@@ -12,7 +19,7 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>
+      <body className={inter.className}>
       <div>بنی آدم اعضای یکدیگرند</div>
         {children}
         </body>
