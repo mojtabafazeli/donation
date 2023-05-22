@@ -8,7 +8,7 @@ import Link from 'next/link';
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const [allProvs, setAllProvs] = useState([]);
+  const [allProvs, setAllProvs] = useState<any[]>([]);
   // console.log('all provs', allProv);
   useEffect(() => {
     fetch('https://iran-locations-api.vercel.app/api/v1/states')
@@ -18,11 +18,11 @@ export default function Home() {
 
   const provs = allProvs?.map(prov => (
     <li key={prov?.id}>
-      <Link href={`about/${prov.name}`}>{prov.name}</a>
+      <Link href={`/about/${prov.name}`}>{prov.name}</Link>
       </li>
   ))
   return (
-    <main>
+    <main className={styles.main}>
       <ul>
       <label>فهرست استان ها</label>
       {provs}
