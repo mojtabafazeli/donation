@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 import getAllProvinces from 'lib/getAllProvinces';
 
 export const metadata: Metadata = {
-  title: 'استان ها'
+  title: 'دیار'
 }
 
 export default async function Home() {
