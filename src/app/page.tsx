@@ -11,11 +11,10 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const allProvinces: Province[] = await getAllProvinces();
-  console.log(allProvinces);
 
   const provsList = allProvinces?.map(prov => (
     <li key={prov?.id}>
-      <Link href={`/about/${prov.name}`}>{prov.name}</Link>
+      <Link href={`/province/${prov.name}`}>{prov.name}</Link>
       </li>
   ))
   return (
