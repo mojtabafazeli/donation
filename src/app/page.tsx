@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import styles from './page.module.css'
 import Link from 'next/link';
 import { Metadata } from 'next';
 import getAllProvinces from 'lib/getAllProvinces';
@@ -18,9 +17,9 @@ export default async function Home() {
       </li>
   ))
   return (
-    <main className={styles.main}>
+    <main className="container mx-auto">
       <ul>
-      <label>فهرست استان ها</label>
+      <label className="text-3xl font-bold underline">فهرست استان ها</label>
       {provsList}
       </ul>
     </main>
