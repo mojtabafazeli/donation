@@ -1,27 +1,26 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
+import Image from 'next/image';
 import Link from 'next/link';
-import { Metadata } from 'next';
-import getAllProvinces from 'lib/getAllProvinces';
 
-export const metadata: Metadata = {
-  title: 'دیار'
-}
+export default function Home() {
+    return (
+        <div className="flex flex-col gap-6 grow justify-center align-center">
+            <Image
+                className='mx-auto'
+                src='/diyar.png'
+                width={200}
+                height={200}
+                alt="دیار"
+            />
+            <Link className="flex justify-center align-center " href="province">
+                <Image
+                className='mx-auto border-b-2 border-black p-1'
+                src='/yari.webp'
+                width={100}
+                height={100}
+                alt="یاری کنید"
+                />
+            </Link>
+        </div>
 
-export default async function Home() {
-  const allProvinces: Province[] = await getAllProvinces();
-
-  const provsList = allProvinces?.map(prov => (
-    <li key={prov?.id}>
-      <Link href={`/province/${prov.name}`}>{prov.name}</Link>
-      </li>
-  ))
-  return (
-    <main className="container mx-auto">
-      <ul>
-      <label className="text-3xl font-bold underline">فهرست استان ها</label>
-      {provsList}
-      </ul>
-    </main>
-  )
+    )
 }
