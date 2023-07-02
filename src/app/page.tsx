@@ -11,7 +11,7 @@ export default function Home() {
                 height={200}
                 alt="دیار"
             />
-            <Link className="flex justify-center align-center " href="province">
+            <Link className="flex justify-center align-center " href="home">
                 <Image
                 className='mx-auto border-b-2 border-black p-1'
                 src='/yari.webp'

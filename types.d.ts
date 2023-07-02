@@ -6,8 +6,7 @@ type Province = {
     id: number;
 };
 
-type Option = {
-    education: boolean,
-    health: boolean,
-    misc: boolean
-}
+type Category = {
+    id: string,
+    name: string,
+};
