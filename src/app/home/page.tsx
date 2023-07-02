@@ -1,11 +1,13 @@
 "use client";
 
-import getAllProvinces from "lib/getAllProvinces";
 import axios from "axios";
 import styles from "./page.module.css";
 
 export default async function Home() {
-  const allProvinces: Province[] = await getAllProvinces();
+  const allProvinces: Province[] = (
+    await axios.get("http://localhost:3000/api/provinces")
+  ).data;
+  
   const categories: Category[] = (
     await axios.get("http://localhost:3000/api/categories")
   ).data;
