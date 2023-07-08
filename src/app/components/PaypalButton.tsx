@@ -4,15 +4,7 @@ import {
     usePayPalScriptReducer
 } from "@paypal/react-paypal-js";
 
-// This values are the props in the UI
-// const amount = "2";
-// const currency = "USD";
-// const style = {"layout":"vertical"};
-
-// Custom component to wrap the PayPalButtons and handle currency changes
-const PaypalButton = ({ currency, amount }: {currency:string, amount: string}) => {
-    // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
-    // This is the main reason to wrap the PayPalButtons in a new component
+const PaypalButton = ({ currency, amount}: {currency:string, amount: string}) => {
     const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
 
     useEffect(() => {
@@ -28,8 +20,7 @@ const PaypalButton = ({ currency, amount }: {currency:string, amount: string}) =
 
     return (<>
             { (isPending) && <div className="spinner" /> }
-            <PayPalButtons
-                // style={style}
+        <PayPalButtons
                 disabled={false}
                 forceReRender={[amount, currency]}
                 fundingSource={undefined}
@@ -46,15 +37,15 @@ const PaypalButton = ({ currency, amount }: {currency:string, amount: string}) =
                             ],
                         })
                         .then((orderId) => {
-                            // Your code here after create the order
+                            console.log(orderId)
                             return orderId;
                         });
                 }}
-                // onApprove={function (data, actions) {
-                //     return actions?.order?.capture().then(function () {
-                //         // Your code here after capture the order
-                //     });
-                // }}
+                onApprove={function (data, actions) {
+                    return actions?.order?.capture().then(function () {
+                        // Your code here after capture the order
+                    });
+                }}
             />
         </>
     );

@@ -12,5 +12,12 @@ export default async function GET(
   const provincesResponse = await fetch('https://iran-locations-api.vercel.app/api/v1/states');
   const provinces = await provincesResponse?.json();
 
-  res.status(200).json(provinces);
+  const everywhere = {
+    name: "هر کجا", 
+    id: 0,
+  }
+
+  const newList = [everywhere, ...provinces];
+
+  res.status(200).json(newList);
 }

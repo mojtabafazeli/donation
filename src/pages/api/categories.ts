@@ -7,7 +7,11 @@ type Data = {
 };
 
 export default function GET(req: NextApiRequest, res: NextApiResponse) {
-    res.status(200).json([
+    const list = [
+        {
+            id: '0',
+            name: 'هر کار'
+        },
         {
             id: '1',
             name: 'درمان'
@@ -20,5 +24,6 @@ export default function GET(req: NextApiRequest, res: NextApiResponse) {
             id: '3',
             name: 'سرپرستی'
         },
-    ]);
+    ]
+    res.status(200).json(list);
 }
