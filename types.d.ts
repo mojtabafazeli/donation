@@ -1,12 +1,12 @@
 type Province = {
+    id: number,
+    label: string,
     name: string,
-    center: string,
-    latitude: string,
-    longitude: string,
-    id: number;
+    active: boolean,
 };
 
 type Category = {
-    id: string,
+    id: number,
+    label: string,
     name: string,
 };

@@ -1,29 +1,16 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { NextApiRequest, NextApiResponse } from 'next';
-
-type Data = {
-    id: string;
-    name: string;
-};
+import { fields, provinces } from '../provincesData';
 
 export default function GET(req: NextApiRequest, res: NextApiResponse) {
-    const list = [
-        {
-            id: '0',
-            name: 'هر کار'
-        },
-        {
-            id: '1',
-            name: 'درمان'
-        },
-        {
-            id: '2',
-            name: 'آموزش'
-        },
-        {
-            id: '3',
-            name: 'سرپرستی'
-        },
-    ]
-    res.status(200).json(list);
+    const province: any = req.query.prov;
+    let selectedFields = [...fields];
+
+    const selectedProvince = provinces.find(p => p.name === province);
+
+    if (province) {
+        const filedIds = selectedProvince?.fields;
+        selectedFields = fields.filter(f => filedIds?.includes(f.id));
+    }
+    res.status(200).json(selectedFields);
 }

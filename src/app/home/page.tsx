@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "./page.module.css";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import PaypalButton from "../components/PaypalButton";
+import { Province, Category } from 'types.d';
 import {
   Paypal,
   PROVINCES_EP,
@@ -12,7 +13,7 @@ import {
 
 export default function Home() {
   const [provinces, setProvinces] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([])
   const [amount, setAmount] = useState(5);
 
   useEffect(() => {
@@ -24,15 +25,24 @@ export default function Home() {
       .then((res) => setCategories(res.data));
   }, []);
 
-  const provsList = provinces.map((prov) => (
-    <option key={prov?.id} value={prov.name}>
-      {prov.name}
+  const provincesList = provinces?.map((prov: Province) => (
+    <option 
+      key={prov?.id} 
+      value={prov.name} 
+      >
+      {prov.label}
     </option>
   ));
 
-  const categoriesList = categories.map((cat) => (
+  const getCategories = (p: string) => {
+    axios
+      .get(CATEGORIES_EP + "?prov=" + p)
+      .then((res) => setCategories(res.data));
+  }
+
+  const categoriesList = categories.map((cat: Category) => (
     <option key={cat?.id} value={cat.name}>
-      {cat.name}
+      {cat.label}
     </option>
   ));
 
@@ -49,8 +59,12 @@ export default function Home() {
       <form className="flex gap-2">
         <label className="flex flex-col">
           فهرست استان ها
-          <select className={styles.select} name="province">
-            {provsList}
+          <select 
+            className={styles.select} 
+            name="province" 
+            onChange={(e) => getCategories(e.target.value)}
+          >
+            {provincesList}
           </select>
         </label>
         <label className="flex flex-col">
