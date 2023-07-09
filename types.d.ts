@@ -3,6 +3,9 @@ type Province = {
     label: string,
     name: string,
     active: boolean,
+    center?: string;
+    latitude?: string;
+    longitude?: string;
 };
 
 type Category = {
