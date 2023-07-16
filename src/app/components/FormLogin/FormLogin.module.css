@@ -1,0 +1,7 @@
+.input{
+  direction: ltr;
+}
+.input:focus{
+  text-align: left;
+  direction: ltr;
+}

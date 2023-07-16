@@ -49,7 +49,6 @@ export default function Home() {
   const handleAmount = (e) => {
     e.preventDefault();
     if (+e.target.value === 0) setAmount(1);
-    console.log(typeof e.target.value);
     setAmount(+e.target.value);
   };
 

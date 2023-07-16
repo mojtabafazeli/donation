@@ -1,5 +1,9 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
+import { AppProvider } from './RealmApp';
+import atlasConfig from "../atlasConfig.json";
+
+const { appId } = atlasConfig;
 
 const inter = Inter({subsets: ['latin']});
 
@@ -21,7 +25,9 @@ export default function RootLayout({
       */}
       <head />
       <body className={inter.className}>
-        {children}
+        <AppProvider appId={appId}>
+          {children}
+        </AppProvider>
         </body>
     </html>
   )
