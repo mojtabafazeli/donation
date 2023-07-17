@@ -2,15 +2,16 @@
 
 import Link from "next/link";
 import { FaHome, FaCity } from "react-icons/fa";
+import { MdAccountCircle } from "react-icons/md";
 import { useApp } from "../RealmApp";
 
-export default function Navbar(props) {
+export default function Navbar() {
   const { currentUser } = useApp();
-    console.log('----> ', currentUser);
 
   return (
     <nav className="bg-slate-600 p-4 sticky drop-shadow-xl z-10">
-      <div className="prose prose-xl mx-auto flex gap-6">
+      <div className="prose prose-xl justify-between mx-auto flex gap-6">
+        <div className="prose prose-xl flex gap-6">
         <Link
           href="/home"
           className="flex items-center gap-1 text-white/90 no-underline hover:text-white"
@@ -25,6 +26,16 @@ export default function Navbar(props) {
           <FaCity />
           استان ها
         </Link>
+        </div>
+        <div>
+        <Link
+        href="/auth"
+        className="flex items-center gap-1 text-white/90 no-underline hover:text-white"
+        >
+          <MdAccountCircle />
+          حساب کاربری
+          </Link>
+          </div>
       </div>
     </nav>
   );
