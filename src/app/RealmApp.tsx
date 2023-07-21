@@ -29,7 +29,6 @@ export function AppProvider({ children }: { children: any; }) {
       const credEmail = email?.toLowerCase();
       try {
         const credentials = Realm.Credentials.emailPassword(credEmail, password);
-        console.log(app);
         const user = await app.logIn(credentials);
         setCurrentUser(user);
         if (user) push('/home');

@@ -11,7 +11,6 @@ export default function FormLogin() {
 
   const onLogIn = async (data: any ) => {
     const res = await logIn(data);
-    console.log(res);
   }
 
   return (
