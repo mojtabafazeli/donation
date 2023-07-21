@@ -1,26 +1,38 @@
 "use client"
+
+import { useForm } from  'react-hook-form';
 import Link from "next/link";
-import { useApp } from "../RealmApp";
+import { useApp } from "../../RealmApp.tsx"
 import styles from './FormLogin.module.css';
 
 export default function FormLogin() {
+  const { register, handleSubmit } = useForm();
+  const { logIn } = useApp();
+
+  const onLogIn = async (data: any ) => {
+    const res = await logIn(data);
+    console.log(res);
+  }
 
   return (
      <section className="h-screen flex flex-col flex-col mt-5 space-y-10 md:space-y-0 md:space-x-16 items-center ">
       <div className="md:w-1/3 max-w-sm">
         <img
           src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-          alt="Sample image" />
+          alt="Sample image"
+        />
       </div>
       <div className="md:w-1/3 max-w-sm">
         <div className="text-center md:text-left">
           <button
             type="button"
-            className="mx-1 h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-[0_4px_9px_-4px_#3b71ca]">
+            className="mx-1 h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-[0_4px_9px_-4px_#3b71ca]"
+          >
           </button>
           <button
             type="button"
-            className="inlne-block mx-1 h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-700 uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca]">
+            className="inlne-block mx-1 h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-700 uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca]"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="mx-auto h-3.5 w-3.5"
@@ -31,21 +43,52 @@ export default function FormLogin() {
             </svg>
           </button>
         </div>
-        <input className={`${styles.input} text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`} type="text" placeholder="Email Address" />
-        <input className={`${styles.input}  text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4`} type="password" placeholder="Password" />
-        <div className="mt-4 flex justify-between font-semibold text-sm">
+        <form
+          onSubmit={handleSubmit(onLogIn)}
+        >
+          <input
+            className={`${styles.input} text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`}
+            type="text"
+            placeholder="Email Address"
+            {...register('email')}
+          />
+          <input
+            className={`${styles.input}  text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded mt-4`}
+            type="password"
+            placeholder="Password"
+             {...register('password')}
+          />
+          <div className="mt-4 flex justify-between font-semibold text-sm">
           <label className="flex items-center text-slate-500 hover:text-slate-600 cursor-pointer">
             <span> مرا به خاطر بسپار</span>
-              <input className="ml-1" type="checkbox" />
+            <input
+              className="ml-1"
+              type="checkbox"
+            />
           </label>
-          <a className="text-blue-600 hover:text-blue-700 hover:underline hover:underline-offset-4" href="#">یادآوری رمز عبور</a>
+          <a
+            className="text-blue-600 hover:text-blue-700 hover:underline hover:underline-offset-4"
+            href="#">
+            یادآوری رمز عبور
+          </a>
         </div>
         <div className="text-center md:text-center">
-          <button className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider" type="submit">ورود</button>
+          <button
+            className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
+          >
+            ورود
+          </button>
         </div>
         <div className="mt-4 font-semibold text-sm text-slate-500 text-right md:text-center">
-          حساب کاربری ندارید؟ <a className="text-red-600 hover:underline hover:underline-offset-4" href="#"> ثبت نام کنید</a>
-        </div>
+          حساب کاربری ندارید؟ 
+            <a 
+              className="text-red-600 hover:underline hover:underline-offset-4" 
+              href="#"
+            >
+               ثبت نام کنید
+            </a>
+          </div>
+        </form>
       </div>
     </section>
   );

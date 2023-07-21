@@ -1,9 +1,6 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import { AppProvider } from './RealmApp';
-import atlasConfig from "../atlasConfig.json";
-
-const { appId } = atlasConfig;
 
 const inter = Inter({subsets: ['latin']});
 
@@ -16,7 +13,8 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-}) {
+  }) {
+  console.log(process.env);
   return (
     <html lang="fa" dir="rtl">
       {/*
@@ -25,7 +23,7 @@ export default function RootLayout({
       */}
       <head />
       <body className={inter.className}>
-        <AppProvider appId={appId}>
+        <AppProvider appId={process.env.NEXT_PUBLIC_MONGO_APP_ID}>
           {children}
         </AppProvider>
         </body>
