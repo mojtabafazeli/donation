@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
+import { useRouter } from 'next/navigation';
 import * as Realm from "realm-web";
 
 const AppContext = React.createContext(null);
 
-export function AppProvider({ children }: { children: any }) {
+export function AppProvider({ children }: { children: any; }) {
+  const { push } = useRouter();
   const [currentUser, setCurrentUser] = React.useState<any>();
   const [app, setApp] = React.useState<any>(null);
 
@@ -18,14 +20,22 @@ export function AppProvider({ children }: { children: any }) {
       const credentials = Realm.Credentials.anonymous();
       const anonUser = app.logIn(credentials);
       setCurrentUser(anonUser);
-      console.log(anonUser);
     }
   }, [app]);
 
   const logIn = React.useCallback(
-    async (credentials: any) => {
-      await app.logIn(credentials);
-      setCurrentUser(app);
+    async (loginValues: any) => {
+      const {email, password} = loginValues
+      const credEmail = email?.toLowerCase();
+      try {
+        const credentials = Realm.Credentials.emailPassword(credEmail, password);
+        console.log(app);
+        const user = await app.logIn(credentials);
+        setCurrentUser(user);
+        if (user) push('/home');
+      } catch (e) {
+        console.log(e);
+      }
     },
     [app]
   );
