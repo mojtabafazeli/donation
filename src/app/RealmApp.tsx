@@ -26,7 +26,7 @@ export function AppProvider({ children }: { children: any; }) {
       app.logIn(credentials);
     }
   }, [app]);
-  console.log()
+  
   const logIn = React.useCallback(
     async (loginValues: any) => {
       const {email, password} = loginValues
@@ -34,8 +34,8 @@ export function AppProvider({ children }: { children: any; }) {
       try {
         const credentials = Realm.Credentials.emailPassword(credEmail, password);
         await app.logIn(credentials);
-      setCurrentUser(app.users[0])
-      setIsAuthenticated(true);
+        setCurrentUser(app.users[0])
+        setIsAuthenticated(true);
       } catch (e) {
         console.log(e);
       }
