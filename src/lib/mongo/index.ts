@@ -9,7 +9,7 @@ if(process.env.NEXT_PUBLIC_MONGO_APP_ID) {
 }
 
 export const realmApp: Realm.App = new Realm.App({
-    id: appId,
+   id: appId,
 })
 
 export const mongodb = realmApp?.currentUser?.mongoClient("mongodb-atlas");

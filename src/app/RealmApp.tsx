@@ -7,29 +7,35 @@ const AppContext = React.createContext(null);
 
 export function AppProvider({ children }: { children: any; }) {
 
-  const [currentUser, setCurrentUser] = React.useState<any>();
   const [app, setApp] = React.useState<any>(null);
+  const [currentUser, setCurrentUser] = React.useState<any>(app?.users?.[0]);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(app?.users?.[0]?.providerType === "local-userpass");
 
   React.useEffect(() => {
-    setApp(Realm.getApp(process.env.NEXT_PUBLIC_MONGO_APP_ID!));
+    const initApp = async () => {
+      const app = await new Realm.App({ id: process.env.NEXT_PUBLIC_MONGO_APP_ID! });
+      setApp(app);
+      setIsAuthenticated(app.users[0].providerType==="local-userpass");
+};
+    initApp();
   }, []);
 
   React.useEffect(() => {
     if (app && !app.currentUser) {
       const credentials = Realm.Credentials.anonymous();
-      const anonUser = app.logIn(credentials);
-      setCurrentUser(anonUser);
+      app.logIn(credentials);
     }
   }, [app]);
-
+  console.log()
   const logIn = React.useCallback(
     async (loginValues: any) => {
       const {email, password} = loginValues
       const credEmail = email?.toLowerCase();
       try {
         const credentials = Realm.Credentials.emailPassword(credEmail, password);
-        const user = await app.logIn(credentials);
-        setCurrentUser(user);
+        await app.logIn(credentials);
+      setCurrentUser(app.users[0])
+      setIsAuthenticated(true);
       } catch (e) {
         console.log(e);
       }
@@ -53,8 +59,8 @@ export function AppProvider({ children }: { children: any; }) {
   }, [app]);
 
   const appContext = React.useMemo(() => {
-    return { ...app, currentUser, logIn, logOut };
-  }, [app, currentUser, logIn, logOut]);
+    return { ...app, currentUser, isAuthenticated, logIn, logOut };
+  }, [app, currentUser, isAuthenticated, logIn, logOut]);
 
   return (
     <AppContext.Provider value={appContext}>{children}</AppContext.Provider>
