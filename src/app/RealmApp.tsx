@@ -1,13 +1,12 @@
 "use client";
 
 import React from "react";
-import { useRouter } from 'next/navigation';
 import * as Realm from "realm-web";
 
 const AppContext = React.createContext(null);
 
 export function AppProvider({ children }: { children: any; }) {
-  const { push } = useRouter();
+
   const [currentUser, setCurrentUser] = React.useState<any>();
   const [app, setApp] = React.useState<any>(null);
 
@@ -31,7 +30,6 @@ export function AppProvider({ children }: { children: any; }) {
         const credentials = Realm.Credentials.emailPassword(credEmail, password);
         const user = await app.logIn(credentials);
         setCurrentUser(user);
-        if (user) push('/home');
       } catch (e) {
         console.log(e);
       }

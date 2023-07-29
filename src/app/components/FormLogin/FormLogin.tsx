@@ -1,11 +1,16 @@
 "use client"
 
 import { useForm } from  'react-hook-form';
-import Link from "next/link";
-import { useApp } from "../../RealmApp.tsx"
-import styles from './FormLogin.module.css';
+import { useRouter } from 'next/navigation';
+import { useApp } from "../../RealmApp.tsx";
+
+import  styles from './FormLogin.module.css';
 
 export default function FormLogin() {
+    const { push } = useRouter();
+    const {currentUser} = useApp();
+  if (currentUser) push('/home');
+
   const { register, handleSubmit } = useForm();
   const { logIn } = useApp();
 
@@ -43,7 +48,7 @@ export default function FormLogin() {
           </button>
         </div>
         <form
-          onSubmit={handleSubmit(onLogIn)}
+          onSubmit={handleSubmit(logIn)}
         >
           <input
             className={`${styles.input} text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`}
