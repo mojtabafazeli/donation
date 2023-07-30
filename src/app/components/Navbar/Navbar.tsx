@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { FaHome, FaCity } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
-import { realmApp } from "@/lib/mongo";
 import {useApp} from "@/app/RealmApp";
 
 export default function Navbar() {

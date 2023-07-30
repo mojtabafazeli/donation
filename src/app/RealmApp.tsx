@@ -8,14 +8,14 @@ const AppContext = React.createContext(null);
 export function AppProvider({ children }: { children: any; }) {
 
   const [app, setApp] = React.useState<any>(null);
-  const [currentUser, setCurrentUser] = React.useState<any>(app?.users?.[0]);
-  const [isAuthenticated, setIsAuthenticated] = React.useState(app?.users?.[0]?.providerType === "local-userpass");
+  const [currentUser, setCurrentUser] = React.useState<any>(app?.currentUser);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
 
   React.useEffect(() => {
     const initApp = async () => {
       const app = await new Realm.App({ id: process.env.NEXT_PUBLIC_MONGO_APP_ID! });
       setApp(app);
-      setIsAuthenticated(app.users[0].providerType==="local-userpass");
+      setIsAuthenticated(app.currentUser);
 };
     initApp();
   }, []);
@@ -26,7 +26,7 @@ export function AppProvider({ children }: { children: any; }) {
       app.logIn(credentials);
     }
   }, [app]);
-  
+            console.log('---->', app?.currentUser);
   const logIn = React.useCallback(
     async (loginValues: any) => {
       const {email, password} = loginValues
@@ -34,8 +34,7 @@ export function AppProvider({ children }: { children: any; }) {
       try {
         const credentials = Realm.Credentials.emailPassword(credEmail, password);
         await app.logIn(credentials);
-        setCurrentUser(app.users[0])
-        setIsAuthenticated(true);
+        setCurrentUser(app.currentUser)
       } catch (e) {
         console.log(e);
       }
@@ -55,7 +54,8 @@ export function AppProvider({ children }: { children: any; }) {
     // the new current user will be null. If you add support for
     // multiple simultaneous user logins, this updates to another logged
     // in account if one exists.
-    setCurrentUser(app.currentUser);
+    setCurrentUser(null);
+    isAuthenticated(false);
   }, [app]);
 
   const appContext = React.useMemo(() => {

@@ -8,7 +8,8 @@ import  styles from './FormLogin.module.css';
 
 export default function FormLogin() {
     const { push } = useRouter();
-    const {currentUser} = useApp();
+  const { currentUser } = useApp();
+
   if (currentUser) push('/home');
 
   const { register, handleSubmit } = useForm();
