@@ -4,17 +4,13 @@ import Link from "next/link";
 import { FaHome, FaCity } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
 import {useApp} from "@/app/RealmApp";
+import MenuProfile from "@/app/components/MenuProfile/MenuProfile"
 
 export default function Navbar() {
-  const {isAuthenticated} = useApp();
-  const accountLink = isAuthenticated ? (
-      <Link
-      href="/account"
-      className="flex items-center gap-1 text-white/90 no-underline hover:text-white"
-      >
-      <MdAccountCircle />
-          مهمان
-    </Link>
+  const {currentUser} = useApp();
+  console.log(currentUser)
+  const accountLink = currentUser ? (
+    <MenuProfile />
   )  : (
     <Link
         href="/auth"

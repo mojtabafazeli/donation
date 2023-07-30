@@ -9,13 +9,11 @@ export function AppProvider({ children }: { children: any; }) {
 
   const [app, setApp] = React.useState<any>(null);
   const [currentUser, setCurrentUser] = React.useState<any>(app?.currentUser);
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-
+ console.log('---->', app?.currentUser);
   React.useEffect(() => {
     const initApp = async () => {
       const app = await new Realm.App({ id: process.env.NEXT_PUBLIC_MONGO_APP_ID! });
       setApp(app);
-      setIsAuthenticated(app.currentUser);
 };
     initApp();
   }, []);
@@ -25,8 +23,9 @@ export function AppProvider({ children }: { children: any; }) {
       const credentials = Realm.Credentials.anonymous();
       app.logIn(credentials);
     }
+    setCurrentUser(app?.currentUser);
   }, [app]);
-            console.log('---->', app?.currentUser);
+
   const logIn = React.useCallback(
     async (loginValues: any) => {
       const {email, password} = loginValues
@@ -55,12 +54,11 @@ export function AppProvider({ children }: { children: any; }) {
     // multiple simultaneous user logins, this updates to another logged
     // in account if one exists.
     setCurrentUser(null);
-    isAuthenticated(false);
   }, [app]);
 
   const appContext = React.useMemo(() => {
-    return { ...app, currentUser, isAuthenticated, logIn, logOut };
-  }, [app, currentUser, isAuthenticated, logIn, logOut]);
+    return { ...app, currentUser, logIn, logOut };
+  }, [app, currentUser, logIn, logOut]);
 
   return (
     <AppContext.Provider value={appContext}>{children}</AppContext.Provider>
