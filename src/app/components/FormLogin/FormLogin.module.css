@@ -1,7 +1,18 @@
 .input{
   direction: ltr;
 }
+
 .input:focus{
   text-align: left;
   direction: ltr;
 }
+
+.name {
+  direction: rtl;
+}
+
+.name:focus {
+  text-align: right;
+  direction: rtl;
+}
+

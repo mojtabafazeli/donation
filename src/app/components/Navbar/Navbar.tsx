@@ -8,7 +8,6 @@ import MenuProfile from "@/app/components/MenuProfile/MenuProfile"
 
 export default function Navbar() {
   const {currentUser} = useApp();
-  console.log(currentUser)
   const accountLink = currentUser ? (
     <MenuProfile />
   )  : (

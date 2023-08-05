@@ -9,7 +9,6 @@ export function AppProvider({ children }: { children: any; }) {
 
   const [app, setApp] = React.useState<any>(null);
   const [currentUser, setCurrentUser] = React.useState<any>(app?.currentUser);
- console.log('---->', app?.currentUser);
   React.useEffect(() => {
     const initApp = async () => {
       const app = await new Realm.App({ id: process.env.NEXT_PUBLIC_MONGO_APP_ID! });
@@ -25,6 +24,13 @@ export function AppProvider({ children }: { children: any; }) {
     }
     setCurrentUser(app?.currentUser);
   }, [app]);
+
+  const register = React.useCallback(
+    async (values: any) => {
+
+    },
+    [app]
+  )
 
   const logIn = React.useCallback(
     async (loginValues: any) => {
@@ -57,8 +63,8 @@ export function AppProvider({ children }: { children: any; }) {
   }, [app]);
 
   const appContext = React.useMemo(() => {
-    return { ...app, currentUser, logIn, logOut };
-  }, [app, currentUser, logIn, logOut]);
+    return { ...app, currentUser, logIn, logOut, register };
+  }, [app, currentUser, logIn, logOut, register]);
 
   return (
     <AppContext.Provider value={appContext}>{children}</AppContext.Provider>
