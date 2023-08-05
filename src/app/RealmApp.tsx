@@ -19,15 +19,29 @@ export function AppProvider({ children }: { children: any; }) {
 
   React.useEffect(() => {
     if (app && !app.currentUser) {
-      const credentials = Realm.Credentials.anonymous();
-      app.logIn(credentials);
+      // const credentials = Realm.Credentials.anonymous();
+      // app.logIn(credentials);
     }
     setCurrentUser(app?.currentUser);
   }, [app]);
 
   const register = React.useCallback(
     async (values: any) => {
-
+       const {email, password} = values
+       const credEmail = email?.toLowerCase();
+       try {
+        await app.emailPasswordAuth.registerUser(
+            {
+              credEmail,
+              password
+            }
+          );
+          const credentials = Realm.Credentials.emailPassword(credEmail, password);
+          await app.logIn(credentials);
+          setCurrentUser(app.currentUser)
+       } catch (e) {
+        console.log(e)
+       }
     },
     [app]
   )
