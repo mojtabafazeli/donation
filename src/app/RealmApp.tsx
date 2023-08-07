@@ -32,7 +32,7 @@ export function AppProvider({ children }: { children: any; }) {
        try {
         await app.emailPasswordAuth.registerUser(
             {
-              credEmail,
+              email: credEmail,
               password
             }
           );
