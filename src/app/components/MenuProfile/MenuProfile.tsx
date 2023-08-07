@@ -10,7 +10,7 @@ export default function MenuProfile () {
     return (
         <>
             <div
-                className="flex items-center gap-1 text-white/90 no-underline hover:text-white"
+                className="flex items-center gap-1 text-white/90 no-underline hover:text-white cursor-pointer"
                 onClick={() => setVisible(prev => !prev)}
             >
                 <MdAccountCircle />
