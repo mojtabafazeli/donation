@@ -92,20 +92,22 @@ export default function FormLogin() {
               </div>
           ) : (
             <div>
-              <div className="mt-4 flex justify-between font-semibold text-sm">
-                <label className="flex items-center text-slate-500 hover:text-slate-600 cursor-pointer">
+                <div className="mt-4 flex justify-between font-semibold text-sm">
+                  {/* TODO to be added in next version */}
+                {/* <label className="flex items-center text-slate-500 hover:text-slate-600 cursor-pointer">
                   <span> مرا به خاطر بسپار</span>
                   <input className="ml-1" type="checkbox" />
-                </label>
+                </label> */}
+                
+              </div>
+              <div className="flex justify-between items-center text-center md:text-center">
                 <a
                   className="text-blue-600 hover:text-blue-700 hover:underline hover:underline-offset-4"
                   href="#"
                 >
                   یادآوری رمز عبور
                 </a>
-              </div>
-              <div className="text-center md:text-center">
-                <button className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider">
+                <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider">
                   ورود
                 </button>
               </div>

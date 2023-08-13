@@ -1,7 +1,7 @@
 "use client";
 
-import FormLogin from '../components/FormLogin/FormLogin';
-import { useApp } from '../RealmApp';
+import FormLogin from '../../components/FormLogin/FormLogin';
+import { useApp } from '../../RealmApp';
 import { useRouter } from 'next/navigation';
 
 export default function Auth() {

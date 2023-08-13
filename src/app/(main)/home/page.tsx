@@ -3,33 +3,26 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./page.module.css";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import PaypalButton from "../components/PaypalButton";
-import { Province, Category } from 'types.d';
+import PaypalButton from "../../components/PaypalButton";
+import { Province, Category } from "types.d";
 import {
   Paypal,
   PROVINCES_EP,
-  CATEGORIES_EP
-} from '../constants/apiConstants.js';
+  CATEGORIES_EP,
+} from "../../constants/apiConstants.js";
 
 export default function Home() {
   const [provinces, setProvinces] = useState([]);
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState([]);
   const [amount, setAmount] = useState(5);
 
   useEffect(() => {
-    axios
-      .get(PROVINCES_EP)
-      .then((res) => setProvinces(res.data));
-    axios
-      .get(CATEGORIES_EP)
-      .then((res) => setCategories(res.data));
+    axios.get(PROVINCES_EP).then((res) => setProvinces(res.data));
+    axios.get(CATEGORIES_EP).then((res) => setCategories(res.data));
   }, []);
 
   const provincesList = provinces?.map((prov: Province) => (
-    <option 
-      key={prov?.id} 
-      value={prov.name} 
-      >
+    <option key={prov?.id} value={prov.name}>
       {prov.label}
     </option>
   ));
@@ -38,7 +31,7 @@ export default function Home() {
     axios
       .get(CATEGORIES_EP + "?prov=" + p)
       .then((res) => setCategories(res.data));
-  }
+  };
 
   const categoriesList = categories.map((cat: Category) => (
     <option key={cat?.id} value={cat.name}>
@@ -58,9 +51,9 @@ export default function Home() {
       <form className="flex gap-2">
         <label className="flex flex-col">
           فهرست استان ها
-          <select 
-            className={styles.select} 
-            name="province" 
+          <select
+            className={styles.select}
+            name="province"
             onChange={(e) => getCategories(e.target.value)}
           >
             {provincesList}
@@ -84,16 +77,12 @@ export default function Home() {
         <div className="paypal flex items-center width-fit mx-4">
           <PayPalScriptProvider
             options={{
-              clientId:
-               Paypal.CLIENT_ID,
+              clientId: Paypal.CLIENT_ID,
               components: "buttons",
               currency: "CAD",
             }}
           >
-            <PaypalButton 
-            amount={amount} 
-            currency="CAD" 
-            />
+            <PaypalButton amount={amount} currency="CAD" />
           </PayPalScriptProvider>
         </div>
       </form>

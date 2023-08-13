@@ -6,7 +6,7 @@ const inter = Inter({subsets: ['latin']});
 
 export const metadata = {
   title: 'دیار',
-  description: 'لیست استان ها'
+  description: 'صفحه اصلی'
 }
 
 export default function RootLayout({
