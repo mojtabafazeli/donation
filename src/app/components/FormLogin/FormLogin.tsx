@@ -1,8 +1,9 @@
 "use client";
 import React from 'react';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useApp } from "../../RealmApp.tsx";
+import { useApp } from "../../RealmApp";
 
 import styles from './FormLogin.module.css';
 
@@ -89,6 +90,12 @@ export default function FormLogin() {
                 <button className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider">
                    ثبت نام
                 </button>
+                <button
+                    className="block mx-auto mt-3 text-red-600 hover:underline hover:underline-offset-4"
+                    onClick={() => setSignUp(false)}
+                  >
+                  حساب کاربری دارید
+                </button>
               </div>
           ) : (
             <div>
@@ -101,24 +108,25 @@ export default function FormLogin() {
                 
               </div>
               <div className="flex justify-between items-center text-center md:text-center">
-                <a
-                  className="text-blue-600 hover:text-blue-700 hover:underline hover:underline-offset-4"
-                  href="#"
-                >
-                  یادآوری رمز عبور
-                </a>
                 <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider">
                   ورود
                 </button>
+                <Link
+                  className="text-blue-600 hover:text-blue-700 hover:underline hover:underline-offset-4"
+                  href="/reset-password"
+                >
+                  یادآوری رمز عبور
+                </Link>
+                
               </div>
               <div className="mt-4 font-semibold text-sm text-slate-500 text-right md:text-center">
+                <span>حساب کاربری ندارید؟</span>
                 <button
-                  className="text-red-600 hover:underline hover:underline-offset-4 mr-1"
-                  onClick={() => setSignUp(true)}
-                >
+                    className="text-red-600 hover:underline hover:underline-offset-4 mr-1"
+                    onClick={() => setSignUp(true)}
+                  >
                   ثبت نام کنید
                 </button>
-                حساب کاربری ندارید؟
               </div>
            </div>
             )
