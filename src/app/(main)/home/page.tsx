@@ -39,7 +39,7 @@ export default function Home() {
     </option>
   ));
 
-  const handleAmount = (e) => {
+  const handleAmount = (e: any) => {
     e.preventDefault();
     if (+e.target.value === 0) setAmount(1);
     setAmount(+e.target.value);

@@ -1,15 +1,15 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import {
     PayPalButtons,
     usePayPalScriptReducer
-} from "@paypal/react-paypal-js";
+} from '@paypal/react-paypal-js';
 
-const PaypalButton = ({ currency, amount}: {currency:string, amount: string}) => {
+const PaypalButton = ({ currency, amount}) => {
     const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
 
     useEffect(() => {
         dispatch({
-            type: "resetOptions",
+            type: 'resetOptions',
             value: {
                 ...options,
                 currency: currency,
@@ -19,7 +19,7 @@ const PaypalButton = ({ currency, amount}: {currency:string, amount: string}) =>
 
 
     return (<>
-            { (isPending) && <div className="spinner" /> }
+            { (isPending) && <div className='spinner' /> }
         <PayPalButtons
                 disabled={false}
                 forceReRender={[amount, currency]}
@@ -31,7 +31,7 @@ const PaypalButton = ({ currency, amount}: {currency:string, amount: string}) =>
                                 {
                                     amount: {
                                         currency_code: currency,
-                                        value: amount,
+                                        value: ''+amount,
                                     },
                                 },
                             ],
@@ -43,7 +43,7 @@ const PaypalButton = ({ currency, amount}: {currency:string, amount: string}) =>
                 }}
                 onApprove={function (data, actions) {
                     return actions?.order?.capture().then(function () {
-                        // Your code here after capture the order
+                        return true;
                     });
                 }}
             />

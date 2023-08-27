@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import * as Realm from "realm-web";
+import React from 'react';
+import * as Realm from 'realm-web';
 
 const AppContext = React.createContext(null);
 
@@ -25,7 +25,7 @@ export function AppProvider({ children }: { children: any; }) {
     setCurrentUser(app?.currentUser);
   }, [app]);
 
-  const register = React.useCallback(
+  const register= React.useCallback(
     async (values: any) => {
        const {email, password} = values
        const credEmail = email?.toLowerCase();
@@ -43,7 +43,7 @@ export function AppProvider({ children }: { children: any; }) {
         console.log(e)
        }
     },
-    [app]
+    [(app)]
   )
 
   const logIn = React.useCallback(
@@ -69,16 +69,21 @@ export function AppProvider({ children }: { children: any; }) {
     } catch (err) {
       console.error(err);
     }
-    // In this App there will only be one logged in user at a time, so
-    // the new current user will be null. If you add support for
-    // multiple simultaneous user logins, this updates to another logged
-    // in account if one exists.
     setCurrentUser(null);
   }, [app]);
 
+  const sendPasswordResetEmail = React.useCallback(async ( email: string ) => {
+    try {
+      await app.emailPasswordAuth.sendResetPasswordEmail({ email });
+      return Promise.resolve();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [app])
+
   const appContext = React.useMemo(() => {
-    return { ...app, currentUser, logIn, logOut, register };
-  }, [app, currentUser, logIn, logOut, register]);
+    return { ...app, currentUser, logIn, logOut, register, sendPasswordResetEmail };
+  }, [app, currentUser, logIn, logOut, register, sendPasswordResetEmail]);
 
   return (
     <AppContext.Provider value={appContext}>{children}</AppContext.Provider>

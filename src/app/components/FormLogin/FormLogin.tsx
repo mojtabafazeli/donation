@@ -1,11 +1,11 @@
 "use client";
-import React from 'react';
-import Link from 'next/link';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import React from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { useApp } from "../../RealmApp";
 
-import styles from './FormLogin.module.css';
+import styles from "./FormLogin.module.css";
 
 export default function FormLogin() {
   const { push } = useRouter();
@@ -13,18 +13,18 @@ export default function FormLogin() {
 
   const [signUp, setSignUp] = React.useState(false);
 
-  if (currentUser) push('/home');
+  if (currentUser) push("/home");
 
   const { register, handleSubmit } = useForm();
-  const { logIn, register:registerUser } = useApp();
+  const { logIn, register: registerUser } = useApp();
 
   const onSubmit = async (data: any) => {
-    if(signUp) {
-      await registerUser(data);
-    }else {
-      await logIn(data);
-    };
-  }
+    if (signUp) {
+      await (registerUser as Function)(data);
+    } else {
+      await (logIn as Function)(data);
+    }
+  };
 
   return (
     <section className="h-screen flex flex-col flex-col mt-5 space-y-10 md:space-y-0 md:space-x-16 items-center ">
@@ -54,24 +54,22 @@ export default function FormLogin() {
             </svg>
           </button>
         </div>
-        <form 
-          className="flex flex-col gap-1"
-          onSubmit={handleSubmit(onSubmit)}>
+        <form className="flex flex-col gap-1" onSubmit={handleSubmit(onSubmit)}>
           {signUp && (
             <>
               <input
-              className={`${styles.input} ${styles.name} text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`}
-              type="text"
-              placeholder="نام"
-              {...register("firstName")}
+                className={`${styles.input} ${styles.name} text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`}
+                type="text"
+                placeholder="نام"
+                {...register("firstName")}
               />
               <input
-              className={`${styles.input} ${styles.name} text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`}
-              type="text"
-              placeholder="نام خانوادگی"
-              {...register("lastName")}
+                className={`${styles.input} ${styles.name} text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`}
+                type="text"
+                placeholder="نام خانوادگی"
+                {...register("lastName")}
               />
-          </>
+            </>
           )}
           <input
             className={`${styles.input} text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`}
@@ -85,27 +83,26 @@ export default function FormLogin() {
             placeholder="رمز عبور"
             {...register("password")}
           />
-          {signUp?(
+          {signUp ? (
             <div className="text-center md:text-center">
-                <button className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider">
-                   ثبت نام
-                </button>
-                <button
-                    className="block mx-auto mt-3 text-red-600 hover:underline hover:underline-offset-4"
-                    onClick={() => setSignUp(false)}
-                  >
-                  حساب کاربری دارید
-                </button>
-              </div>
+              <button className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider">
+                ثبت نام
+              </button>
+              <button
+                className="block mx-auto mt-3 text-red-600 hover:underline hover:underline-offset-4"
+                onClick={() => setSignUp(false)}
+              >
+                حساب کاربری دارید
+              </button>
+            </div>
           ) : (
             <div>
-                <div className="mt-4 flex justify-between font-semibold text-sm">
-                  {/* TODO to be added in next version */}
-                {/* <label className="flex items-center text-slate-500 hover:text-slate-600 cursor-pointer">
+              <div className="mt-4 flex justify-between font-semibold text-sm">
+                {/* TODO to be added in next version */}
+                {/* <label className='flex items-center text-slate-500 hover:text-slate-600 cursor-pointer'>
                   <span> مرا به خاطر بسپار</span>
-                  <input className="ml-1" type="checkbox" />
+                  <input className='ml-1' type='checkbox' />
                 </label> */}
-                
               </div>
               <div className="flex justify-between items-center text-center md:text-center">
                 <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider">
@@ -117,20 +114,18 @@ export default function FormLogin() {
                 >
                   یادآوری رمز عبور
                 </Link>
-                
               </div>
               <div className="mt-4 font-semibold text-sm text-slate-500 text-right md:text-center">
                 <span>حساب کاربری ندارید؟</span>
                 <button
-                    className="text-red-600 hover:underline hover:underline-offset-4 mr-1"
-                    onClick={() => setSignUp(true)}
-                  >
+                  className="text-red-600 hover:underline hover:underline-offset-4 mr-1"
+                  onClick={() => setSignUp(true)}
+                >
                   ثبت نام کنید
                 </button>
               </div>
-           </div>
-            )
-          }
+            </div>
+          )}
         </form>
       </div>
     </section>

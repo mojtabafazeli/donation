@@ -25,6 +25,7 @@
     ],
     "baseUrl": ".",
     "paths": {
+      "@root/*":["./*"],
       "@/*": [
         "./src/*"
       ]
@@ -36,7 +37,7 @@
     "**/*.tsx",
     ".next/**/*.ts",
     ".next/types/**/*.ts"
-  ],
+, "src/app/components/PaypalButton.jsx", "src/lib/provincesData.js"  ],
   "exclude": [
     "node_modules"
   ]

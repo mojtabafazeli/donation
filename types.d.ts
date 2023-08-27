@@ -1,4 +1,4 @@
-type Province = {
+export type Province = {
     id: number,
     label: string,
     name: string,
@@ -8,7 +8,7 @@ type Province = {
     longitude?: string;
 };
 
-type Category = {
+export type Category = {
     id: number,
     label: string,
     name: string,
