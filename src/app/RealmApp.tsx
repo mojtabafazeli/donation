@@ -81,9 +81,32 @@ export function AppProvider({ children }: { children: any; }) {
     }
   }, [app])
 
+  const resetPassword = React.useCallback(async ( 
+    { 
+      password, 
+      token, 
+      tokenId 
+    }: {
+      password: string, 
+      token: string, 
+      tokenId: string
+    } ) => {
+    try {
+      await app.emailPasswordAuth.resetPassword(
+        { 
+          password,
+          token,
+          tokenId, 
+        });
+      return Promise.resolve();
+    } catch (err) {
+      console.log(err);
+    }
+  }, [app])
+
   const appContext = React.useMemo(() => {
-    return { ...app, currentUser, logIn, logOut, register, sendPasswordResetEmail };
-  }, [app, currentUser, logIn, logOut, register, sendPasswordResetEmail]);
+    return { ...app, currentUser, logIn, logOut, register, sendPasswordResetEmail, resetPassword };
+  }, [app, currentUser, logIn, logOut, register, sendPasswordResetEmail, resetPassword]);
 
   return (
     <AppContext.Provider value={appContext}>{children}</AppContext.Provider>

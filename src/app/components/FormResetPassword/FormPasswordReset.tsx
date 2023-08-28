@@ -32,6 +32,8 @@ export default function FormPasswordReset() {
   });
 
   const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  const tokenId = searchParams.get('tokenId');
 
   const onSubmit = async ({ email }: { email: string; }) => {
     sendEmail(email)
@@ -56,7 +58,7 @@ export default function FormPasswordReset() {
                 className="flex flex-col gap-1 my-3"
                 onSubmit={handleSubmit(onSubmit)}
               >
-              {searchParams?.get('token') ?
+              {token ?
                 (
                   <>
                       <input
