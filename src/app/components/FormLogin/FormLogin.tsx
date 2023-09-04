@@ -4,8 +4,26 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useApp } from "../../RealmApp";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import validator from "validator";
 import styles from "./FormLogin.module.css";
+import { passwordRules } from '@/app/constants/formContstants.js'
+
+const schema = yup
+  .object({
+    email: yup
+      .string()
+      .required("لطفا آدرس ایمیل خود را وارد کنید")
+      .test("آدرس ایمیل معتبر نیست", "آدرس ایمیل معتبر نیست", (value) =>
+        validator.isEmail(value)
+      ),
+      password: yup
+      .string()
+      .required("لطفا رمز عبور جدید را وارد کنید")
+      .matches(passwordRules, "رمز عبور باید به انگلیسی و شامل حروف بزرگ و کوچک و عدد باشد.")
+  })
+  .required();
 
 export default function FormLogin() {
   const { push } = useRouter();
@@ -15,7 +33,13 @@ export default function FormLogin() {
 
   if (currentUser) push("/home");
 
-  const { register, handleSubmit } = useForm();
+  const { 
+    register,
+    formState: { errors },
+    handleSubmit 
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const { logIn, register: registerUser } = useApp();
 
   const onSubmit = async (data: any) => {
@@ -62,7 +86,7 @@ export default function FormLogin() {
                 type="text"
                 placeholder="نام"
                 {...register("firstName")}
-              />
+/>
               <input
                 className={`${styles.input} ${styles.name} text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`}
                 type="text"
@@ -76,7 +100,13 @@ export default function FormLogin() {
             type="text"
             placeholder="آدرس ایمیل"
             {...register("email")}
-          />
+                            aria-valid={errors.email ? "true" : "false"}
+/>
+      {errors.email && (
+        <p style={{ direction: "rtl" }} role="alert">
+          {errors.email.message}
+        </p>
+      )}
           <input
             className={`${styles.input}  text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`}
             type="password"
@@ -105,7 +135,9 @@ export default function FormLogin() {
                 </label> */}
               </div>
               <div className="flex justify-between items-center text-center md:text-center">
-                <button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider">
+                <button 
+                className="bg-blue-600 hover:bg-blue-700 px-4 py-2 text-white uppercase rounded text-xs tracking-wider"
+                >
                   ورود
                 </button>
                 <Link

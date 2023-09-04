@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import React from 'react';
-import * as Realm from 'realm-web';
+import React from "react";
+import * as Realm from "realm-web";
 
 const AppContext = React.createContext(null);
 
-export function AppProvider({ children }: { children: any; }) {
-
+export function AppProvider({ children }: { children: any }) {
   const [app, setApp] = React.useState<any>(null);
   const [currentUser, setCurrentUser] = React.useState<any>(app?.currentUser);
   React.useEffect(() => {
     const initApp = async () => {
-      const app = await new Realm.App({ id: process.env.NEXT_PUBLIC_MONGO_APP_ID! });
+      const app = await new Realm.App({
+        id: process.env.NEXT_PUBLIC_MONGO_APP_ID!,
+      });
       setApp(app);
-};
+    };
     initApp();
   }, []);
 
@@ -25,35 +26,39 @@ export function AppProvider({ children }: { children: any; }) {
     setCurrentUser(app?.currentUser);
   }, [app]);
 
-  const register= React.useCallback(
+  const register = React.useCallback(
     async (values: any) => {
-       const {email, password} = values
-       const credEmail = email?.toLowerCase();
-       try {
-        await app.emailPasswordAuth.registerUser(
-            {
-              email: credEmail,
-              password
-            }
-          );
-          const credentials = Realm.Credentials.emailPassword(credEmail, password);
-          await app.logIn(credentials);
-          setCurrentUser(app.currentUser)
-       } catch (e) {
-        console.log(e)
-       }
+      const { email, password } = values;
+      const credEmail = email?.toLowerCase();
+      try {
+        await app.emailPasswordAuth.registerUser({
+          email: credEmail,
+          password,
+        });
+        const credentials = Realm.Credentials.emailPassword(
+          credEmail,
+          password
+        );
+        await app.logIn(credentials);
+        setCurrentUser(app.currentUser);
+      } catch (e) {
+        console.log(e);
+      }
     },
-    [(app)]
-  )
+    [app]
+  );
 
   const logIn = React.useCallback(
     async (loginValues: any) => {
-      const {email, password} = loginValues
+      const { email, password } = loginValues;
       const credEmail = email?.toLowerCase();
       try {
-        const credentials = Realm.Credentials.emailPassword(credEmail, password);
+        const credentials = Realm.Credentials.emailPassword(
+          credEmail,
+          password
+        );
         await app.logIn(credentials);
-        setCurrentUser(app.currentUser)
+        setCurrentUser(app.currentUser);
       } catch (e) {
         console.log(e);
       }
@@ -72,41 +77,53 @@ export function AppProvider({ children }: { children: any; }) {
     setCurrentUser(null);
   }, [app]);
 
-  const sendPasswordResetEmail = React.useCallback(async ( email: string ) => {
-    try {
-      await app.emailPasswordAuth.sendResetPasswordEmail({ email });
-      return Promise.resolve();
-    } catch (err) {
-      console.log(err);
-    }
-  }, [app])
+  const sendPasswordResetEmail = React.useCallback(
+    async (email: string) => {
+      try {
+        await app.emailPasswordAuth.sendResetPasswordEmail({ email });
+        return Promise.resolve();
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [app]
+  );
 
-  const resetPassword = React.useCallback(async ( 
-    { 
-      password, 
-      token, 
-      tokenId 
-    }: {
-      password: string, 
-      token: string, 
-      tokenId: string
-    } ) => {
-    try {
-      await app.emailPasswordAuth.resetPassword(
-        { 
+  const resetPassword = React.useCallback(
+    async (password: string, token: string, tokenId: string) => {
+      try {
+        await app.emailPasswordAuth.resetPassword({
           password,
           token,
-          tokenId, 
+          tokenId,
         });
-      return Promise.resolve();
-    } catch (err) {
-      console.log(err);
-    }
-  }, [app])
+        return Promise.resolve();
+      } catch (err) {
+       return Promise.reject(err);
+      }
+    },
+    [app]
+  );
 
   const appContext = React.useMemo(() => {
-    return { ...app, currentUser, logIn, logOut, register, sendPasswordResetEmail, resetPassword };
-  }, [app, currentUser, logIn, logOut, register, sendPasswordResetEmail, resetPassword]);
+    return {
+      ...app,
+      currentUser,
+      logIn,
+      logOut,
+      register,
+      sendPasswordResetEmail,
+      resetPassword,
+    };
+  }, [
+    app,
+    currentUser,
+    logIn,
+    logOut,
+    register,
+    sendPasswordResetEmail,
+    resetPassword,
+  ]);
 
   return (
     <AppContext.Provider value={appContext}>{children}</AppContext.Provider>
