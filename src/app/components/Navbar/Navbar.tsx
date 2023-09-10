@@ -12,7 +12,7 @@ export default function Navbar() {
     <MenuProfile />
   ) : (
     <Link
-      href="/auth"
+      href="/login"
       className="flex items-center gap-1 text-white/90 no-underline hover:text-white"
     >
       <MdAccountCircle />
