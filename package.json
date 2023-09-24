@@ -17,6 +17,7 @@
     "@types/react-dom": "18.2.4",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.1",
+    "bcrypt-ts": "^4.0.0",
     "bcryptjs": "^2.4.3",
     "cache": "^3.0.0",
     "clean": "^4.0.2",

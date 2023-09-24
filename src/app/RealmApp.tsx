@@ -2,6 +2,7 @@
 
 import React from "react";
 import * as Realm from "realm-web";
+import { hashPassword, comparePassword } from "./bcrypt";
 
 const AppContext = React.createContext(null);
 
@@ -30,14 +31,16 @@ export function AppProvider({ children }: { children: any }) {
     async (values: any) => {
       const { email, password } = values;
       const credEmail = email?.toLowerCase();
+
       try {
+         const saltedPassword = hashPassword(password);
         await app.emailPasswordAuth.registerUser({
           email: credEmail,
-          password,
+          password: saltedPassword,
         });
         const credentials = Realm.Credentials.emailPassword(
           credEmail,
-          password
+          saltedPassword!
         );
         await app.logIn(credentials);
         setCurrentUser(app.currentUser);
@@ -48,17 +51,21 @@ export function AppProvider({ children }: { children: any }) {
     [app]
   );
 
-  const logIn = React.useCallback(
-    async (loginValues: any) => {
-      const { email, password } = loginValues;
+  const signIn = React.useCallback(
+    async (signInValues: any) => {
+      const { email, password } = signInValues;
+      const saltedPassword = hashPassword(password);
       const credEmail = email?.toLowerCase();
       try {
-        const credentials = Realm.Credentials.emailPassword(
-          credEmail,
-          password
-        );
-        await app.logIn(credentials);
-        setCurrentUser(app.currentUser);
+        const user = await Realm.collection('User').findOne({email})
+        if(user && comparePassword(password, user.password)) {
+        // const credentials = Realm.Credentials.emailPassword(
+        //   credEmail,
+        //   saltedPassword
+        // );
+        // await app.logIn(credentials);
+          setCurrentUser(app.currentUser);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -92,14 +99,15 @@ export function AppProvider({ children }: { children: any }) {
   const resetPassword = React.useCallback(
     async (password: string, token: string, tokenId: string) => {
       try {
+              const saltedPassword = await hashPassword(password);
         await app.emailPasswordAuth.resetPassword({
-          password,
+          saltedPassword,
           token,
           tokenId,
         });
         return Promise.resolve();
       } catch (err) {
-       return Promise.reject(err);
+        return Promise.reject(err);
       }
     },
     [app]
@@ -109,7 +117,7 @@ export function AppProvider({ children }: { children: any }) {
     return {
       ...app,
       currentUser,
-      logIn,
+      signIn,
       logOut,
       register,
       sendPasswordResetEmail,
@@ -118,7 +126,7 @@ export function AppProvider({ children }: { children: any }) {
   }, [
     app,
     currentUser,
-    logIn,
+    signIn,
     logOut,
     register,
     sendPasswordResetEmail,

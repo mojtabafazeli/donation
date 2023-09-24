@@ -16,7 +16,6 @@ interface IFormData {
 }
 
 export default function FormSignUp() {
-  const { push } = useRouter();
   const { register: signUp } = useApp();
   const [serverError, setServerError] = React.useState<string>();
 
@@ -30,13 +29,12 @@ export default function FormSignUp() {
 
   const submitForm = async ({ firstName, lastName, email, password }: IFormData) => {
     console.log(firstName, lastName);
-
-    await (signUp as Function)(email, password)
+    await (signUp as Function)({ email, password })
     .then((e: { message: string }) => {
       if (e?.message) setServerError(e?.message);
     })
     .catch((e) => {
-      console.log(error);
+      console.log(e);
     });
   };
 
@@ -79,7 +77,7 @@ export default function FormSignUp() {
       )}
       <input
         className={`${styles.input}  text-sm w-full px-4 py-2 border border-solid border-gray-300 rounded`}
-        type="confirmedPassword"
+        type="password"
         placeholder="تکرار رمز عبور"
         {...register("confirmedPassword")}
       />

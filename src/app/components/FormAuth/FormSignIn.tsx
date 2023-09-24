@@ -25,7 +25,7 @@ export default function FormSignIn() {
           if (e?.message) setServerError(e?.message);
         })
         .catch ((e: any) => {
-        console.log("-------*****", e)
+        console.log(e)
         setServerError(e);
       })
   };
